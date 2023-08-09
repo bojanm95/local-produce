@@ -1,8 +1,5 @@
-import 'package:domace_front/home.dart';
 import 'package:domace_front/view/landing.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
