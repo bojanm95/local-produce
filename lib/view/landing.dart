@@ -1,28 +1,13 @@
-
+import 'package:domace_front/view/add_shop_form.dart';
+import 'package:domace_front/view/common_layout.dart';
 import 'package:domace_front/view/shops_map.dart';
 import 'package:flutter/material.dart';
 
-class LandingPage extends StatefulWidget {
-  @override
-  _LandingPageState createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-  bool _exploring = false;
-
-  void _startExploring() {
-    setState(() {
-      _exploring = true;
-    });
-  }
-
-
+class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('LocalProduce'),
-      ),
+    return CommonLayout(
+      title: 'LocalProduce',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,38 +19,15 @@ class _LandingPageState extends State<LandingPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                _startExploring();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShopsMap()),
+                );
               },
               child: Text('Start Exploring'),
             ),
-          if (_exploring)
-            Expanded(
-              child: ShopsMap(),
-            ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 8, // Add elevation to the BottomNavigationBar
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shop),
-            label: 'Register Shop',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Find Shop',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lightbulb),
-            label: 'Suggestions',
-          ),
-        ],
       ),
     );
   }

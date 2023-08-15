@@ -1,10 +1,8 @@
-import 'dart:math';
-
+import 'package:domace_front/view/common_layout.dart';
 import 'package:domace_front/view/shop_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ShopsMap extends StatefulWidget {
   @override
@@ -67,58 +65,63 @@ class _ShopsMapState extends State<ShopsMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width / 6, // 1/6 of the total width
-          child: ListView.builder(
-            itemCount: _markers.length,
-            itemBuilder: (context, index) {
-              final marker = _markers.elementAt(index);
-              return ShopCard(
-                shopName: marker.infoWindow.title ?? '',
-                description: 'Shop description here', // Replace with actual description
-                onCardTapped: () {
-                  _onShopMarkerTapped(index); // This will select the shop card
-                  _mapController.animateCamera(
-                    CameraUpdate.newLatLng(marker.position),
+    return CommonLayout(
+      body: 
+        Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 6, // 1/6 of the total width
+              child: ListView.builder(
+                itemCount: _markers.length,
+                itemBuilder: (context, index) {
+                  final marker = _markers.elementAt(index);
+                  return ShopCard(
+                    shopName: marker.infoWindow.title ?? '',
+                    description: 'Shop description here', // Replace with actual description
+                    onCardTapped: () {
+                      _onShopMarkerTapped(index); // This will select the shop card
+                      _mapController.animateCamera(
+                        CameraUpdate.newLatLng(marker.position),
+                      );
+                    }
                   );
-                }
-              );
-            },
-          ),
-        ),
-        Expanded(
-          child: _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: _currentPosition!,
-                    zoom: 14,
-                  ),
-                  markers: _markers
-                      .map(
-                        (marker) => Marker(
-                          markerId: marker.markerId,
-                          position: marker.position,
-                          infoWindow: InfoWindow(
-                            title: marker.infoWindow.title ?? '',
-                          ),
-                          onTap: () => _onShopMarkerTapped(
-                              _markers.toList().indexOf(marker)),
-                        ),
-                      )
-                      .toSet(),
-                  onMapCreated: onMapCreated,
-                  myLocationEnabled: true,
-                  onTap: (_) {
-                    setState(() {
-                      _selectedShopIndex = -1;
-                    });
-                  },
-                ),
-        ),
-      ],
-    );
+                },
+              ),
+            ),
+            Expanded(
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: _currentPosition!,
+                        zoom: 14,
+                      ),
+                      markers: _markers
+                          .map(
+                            (marker) => Marker(
+                              markerId: marker.markerId,
+                              position: marker.position,
+                              infoWindow: InfoWindow(
+                                title: marker.infoWindow.title ?? '',
+                              ),
+                              onTap: () => _onShopMarkerTapped(
+                                  _markers.toList().indexOf(marker)),
+                            ),
+                          )
+                          .toSet(),
+                      onMapCreated: onMapCreated,
+                      myLocationEnabled: true,
+                      onTap: (_) {
+                        setState(() {
+                          _selectedShopIndex = -1;
+                        });
+                      },
+                    ),
+            ),
+          ],
+        )
+    ,title: "Search shops"
+    ); 
+    
   }
 }

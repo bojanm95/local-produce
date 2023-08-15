@@ -3,9 +3,15 @@
 
 // import 'package:http/http.dart' as http;
 // import 'package:domace_front/constants.dart';
+import 'dart:math';
+
 import 'package:domace_front/model/product_model.dart';
+import 'package:logger/logger.dart';
 
 class ProductService {
+
+  var logger = Logger();
+
   Future<List<ProductModel>?> getProducts() async {
     // try {
     //   var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.productsEndpoint);
@@ -26,5 +32,10 @@ class ProductService {
       // log(e.toString());
     // }
     // return null;
+  }
+
+  Future<ProductModel?> saveProduct(ProductModel productModel) async {
+      logger.i("Product ${productModel.toString()} saved!");
+      return productModel;
   }
 }
